@@ -52,6 +52,8 @@ args.domain = str(args.domain).replace("']", "")
 - ⬜️ credentials leak check using secretfinder.py with extended regular expressions;
 - ⬜️ brute-forcing parameters for endpoints using arjun.py;
 - ⬜️ make a file with endpoints along with parameters for pipelining to check for XSS'es, CORS misconfigs, etc.
+- ⬜️ rewrite a tool in Golang;
+- ⬜️ multithreading, - only in Golang (multithreading in Python is terrible imo).
 
 
 # Ways to contribute

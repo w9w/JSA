@@ -24,10 +24,11 @@ echo "https://subdomain.host.com" | subjs | python3 js_extractor.py -d host.com
 
 # Usage for massive and parallel scanning (~lightning-fast execution speed):
 
-cat ~/lists/domains/host.com/js_files.txt | subjs | parallel -j 20 'echo {} | python3 /root/js_extract.py -d host.com'
+cat ~/lists/domains/host.com/js_files.txt | subjs | parallel -j 20 'echo {} | python3 /root/js_extract.py -d host.com'.
+
 You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forget to delete that annoying message.
 
-For automation workflow (python):
+#For automation workflow using python:
 
 args = parser.parse_args()
 args.domain = str(args.domain).replace("['", "")

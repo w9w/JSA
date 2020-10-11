@@ -136,7 +136,7 @@ if len(all_endpoints_1st_lvl) != 0:
                 temp.append(l)
 
             if not re.findall("%s/\W" %clear_domain, l):                ## deleting endpoints containing non-word character (not a-z0-9) http(s)://domain.com/(.|[]{},
-                if not re.findall("%s/[a-z0-9]{1,2}$" % clear_domain, l):       ## deleting endpoints containing 1-2 word character(s) like http(s)://domain.com/1|a|1a
+                if not re.findall("%s/([a-z0-9]{1}/[a-z0-9]|[a-z0-9]{1}){1}$" % clear_domain, l):       ## deleting endpoints containing 1 word character like http(s)://domain.com/1|a
                     temp.append(l)                                          ## most likely to be an endpoint and not a javascript variable
 
     all_endpoints_1st_lvl.clear()  ## deleting current list w/ endpoints
@@ -190,7 +190,7 @@ if all_endpoints_2nd_lvl:
             print(l)
 
         ## retire js check performing using os.system
-        
+
 #if os.path.exists(directory_with_js_files) is True:
     #os.system("retire %s" % directory_with_js_files)
 

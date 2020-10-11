@@ -59,3 +59,8 @@ cat ~/lists/domains/host.com/js_files.txt | subjs | parallel -j 20 'echo {} | py
 - Fix something and open a pull request
 - Create a burp suite plugin
 - Spread the word
+
+
+| Checkbox Experiments | [ ] unchecked header  | [x] checked header  |
+| ---------------------|:---------------------:|:-------------------:|
+| checkbox             | [ ] row               | [x] row             |

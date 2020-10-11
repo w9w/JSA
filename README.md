@@ -35,8 +35,9 @@ args.domain = str(args.domain).replace("']", "")
 cat ~/lists/domains/host.com/js_files.txt | subjs | parallel -j 20 'echo {} | python3 /root/js_extract.py -d %s" %args.domain
 
 
-# Roadmap:
-- replace [] // with http (s) host.tld /, if they exist;
+### Roadmap:
+
+[ ] replace [] // with http (s) host.tld /, if they exist;
 - deletion of duplicate files of the second level in relation to the files of the first level;
 - setting the js file in the parameter when calling the program, still saving stdin;
 - set multiple js files in the parameter as a tuple, still saving stdin;
@@ -49,3 +50,12 @@ cat ~/lists/domains/host.com/js_files.txt | subjs | parallel -j 20 'echo {} | py
 - credentials leak check using secretfinder.py with extended regular expressions;
 - brute-forcing parameters for endpoints using arjun.py;
 - make a file with endpoints along with parameters for pipelining to check for XSS'es, CORS misconfigs, etc.
+
+
+# Ways to contribute
+
+- Suggest a useful feature
+- Report a bug
+- Fix something and open a pull request
+- Create a burp suite plugin
+- Spread the word

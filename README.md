@@ -32,12 +32,12 @@ args = parser.parse_args()
 args.domain = str(args.domain).replace("['", "")
 args.domain = str(args.domain).replace("']", "")
 
-cat ~/lists/domains/host.com/js_files.txt | subjs | parallel -j 20 'echo {} | python3 /root/js_extract.py -d %s" %args.domain
+:heavy_check_mark: cat ~/lists/domains/host.com/js_files.txt | subjs | parallel -j 20 'echo {} | python3 /root/js_extract.py -d %s" %args.domain
 
 
 ### Roadmap:
 
-- <input type="checkbox" disabled checked /> replace \[] // with http (s) host.tld /, if they exist;
+- ✅ replace \[]// with http(s) host.tld /, if it exists;
 - ⬜️ deletion of duplicate files of the second level in relation to the files of the first level;
 - ⬜️ setting the js file in the parameter when calling the program, still saving stdin;
 - ⬜️ set multiple js files in the parameter as a tuple, still saving stdin;
@@ -59,8 +59,3 @@ cat ~/lists/domains/host.com/js_files.txt | subjs | parallel -j 20 'echo {} | py
 - Fix something and open a pull request
 - Create a burp suite plugin
 - Spread the word
-
-
-| Checkbox Experiments | [ ] unchecked header  | [x] checked header  |
-| ---------------------|:---------------------:|:-------------------:|
-| checkbox             | [ ] row               | [x] row             |

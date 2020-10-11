@@ -37,8 +37,8 @@ cat ~/lists/domains/host.com/js_files.txt | subjs | parallel -j 20 'echo {} | py
 
 ### Roadmap:
 
-[ ] replace [] // with http (s) host.tld /, if they exist;
-- deletion of duplicate files of the second level in relation to the files of the first level;
+- ⬜️ replace \[] // with http (s) host.tld /, if they exist;
+- ⬜️deletion of duplicate files of the second level in relation to the files of the first level;
 - setting the js file in the parameter when calling the program, still saving stdin;
 - set multiple js files in the parameter as a tuple, still saving stdin;
 - output the second level files **optionally**, by parameter;

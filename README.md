@@ -37,19 +37,19 @@ cat ~/lists/domains/host.com/js_files.txt | subjs | parallel -j 20 'echo {} | py
 
 ### Roadmap:
 
-- ⬜️ replace \[] // with http (s) host.tld /, if they exist;
-- ⬜️deletion of duplicate files of the second level in relation to the files of the first level;
-- setting the js file in the parameter when calling the program, still saving stdin;
-- set multiple js files in the parameter as a tuple, still saving stdin;
-- output the second level files **optionally**, by parameter;
-- save all found endpoints to a file **optionally**, by parameter;
-- improve the exclusion of 3rd party scripts by domain for multiple domains during bulk scanning, if possible;
-- define domain and tld using re depending on line, if it's possible;
-- check available HTTP methods for endpoints;
-- retire js check via downloading js files to the temporary directory using wget;
-- credentials leak check using secretfinder.py with extended regular expressions;
-- brute-forcing parameters for endpoints using arjun.py;
-- make a file with endpoints along with parameters for pipelining to check for XSS'es, CORS misconfigs, etc.
+- <input type="checkbox" disabled checked /> replace \[] // with http (s) host.tld /, if they exist;
+- ⬜️ deletion of duplicate files of the second level in relation to the files of the first level;
+- ⬜️ setting the js file in the parameter when calling the program, still saving stdin;
+- ⬜️ set multiple js files in the parameter as a tuple, still saving stdin;
+- ⬜️ output the second level files **optionally**, by parameter;
+- ⬜️ save all found endpoints to a file **optionally**, by parameter;
+- ⬜️ improve the exclusion of 3rd party scripts by domain for multiple domains during bulk scanning, if possible;
+- ⬜️ define domain and tld using re depending on line, if it's possible;
+- ⬜️ check available HTTP methods for endpoints;
+- ⬜️ retire js check via downloading js files to the temporary directory using wget;
+- ⬜️ credentials leak check using secretfinder.py with extended regular expressions;
+- ⬜️ brute-forcing parameters for endpoints using arjun.py;
+- ⬜️ make a file with endpoints along with parameters for pipelining to check for XSS'es, CORS misconfigs, etc.
 
 
 # Ways to contribute

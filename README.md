@@ -40,6 +40,7 @@ args.domain = str(args.domain).replace("']", "")
 ### Roadmap:
 
 - ✅ replace \[]// with http(s) host.tld /, if it exists;
+- perform a check on every <script> part in the html page
 - ⬜️ deletion of duplicate files of the second level in relation to the files of the first level;
 - ⬜️ setting the js file in the parameter when calling the program, still saving stdin;
 - ⬜️ set multiple js files in the parameter as a tuple, still saving stdin;

@@ -16,4 +16,4 @@ git clone https://github.com/w9w/SecretFinder.git
 printf "Arjun installation.. (Thanks to Somdev Sangwan :) )\n"
 git clone https://github.com/w9w/Arjun.git
 
-chmod -x automation_multitool_for_js.sh
+chmod +x automation_multitool_for_js.sh

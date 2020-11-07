@@ -175,7 +175,6 @@ if len(all_endpoints_1st_lvl) != 0:
 js_files_2nd_lvl_original = []
 
 if len(js_files_2nd_lvl) != 0:  ## processing 2nd level js files
-    print(1)
     if verbose is True:
         print("\nJS files 2nd level:\n")
     deduplication(js_files_2nd_lvl, js_files_2nd_lvl_original)  ## removing dupes

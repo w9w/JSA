@@ -15,6 +15,9 @@ js_files_2nd_lvl = []
 js_files_3rd_lvl = []
 js_files_4th_lvl = []
 
+js_files_3rd_lvl_original = []
+tmp_list = []
+
 def deduplication(input, original_lines):  ## filtering + deduplication
     existing_lines = []
     for line in input:  ## Filtering the output of subjs (#$ and ?v=$)
@@ -49,7 +52,6 @@ def main_func(original_lines, js_files):
         if js_file_status == 200:  ## if js file exists (to reduce time)
             warnings.simplefilter('ignore', InsecureRequestWarning)
             js_file_content = requests.get(line, verify=False)  ## fetching js file's content
-
             # filename = "%s/%s" % (directory_with_js_files, name_for_wget)
             # os.makedirs(os.path.dirname(filename))  ##creating dir with a js file
             # js_file_write = open(filename, "w")  ## it's for js file downloading
@@ -93,6 +95,7 @@ def main_func(original_lines, js_files):
 
 
 deduplication(js_file, original_lines)
+
 main_func(original_lines, js_files_2nd_lvl)
 
 if len(js_files_2nd_lvl) != 0:  ## processing 2nd level js files
@@ -111,10 +114,8 @@ if len(js_files_2nd_lvl) != 0:  ## processing 2nd level js files
 if len(js_files_3rd_lvl) != 0:
     ##if verbose is True:
         ##print("JS files 3rd level:\n")
-    js_files_3rd_lvl_original = []
     deduplication(js_files_3rd_lvl, js_files_3rd_lvl_original)  ## removing dupes
     for l in js_files_3rd_lvl_original:  ## printing a list
-        tmp_list = []
         j3 = re.findall("\.js$", l)  ## sometimes (I don't know why though), non-js files leak to the list
         if len(j3) == 0:
             continue
@@ -122,11 +123,9 @@ if len(js_files_3rd_lvl) != 0:
             if re.findall("^htt(p|s)(.*?)\w//(.*?)/", l):
                 l = re.sub("^htt(p|s)(.*?)\w//(.*?)/", clear_url + "/", l, flags=re.M)
                 tmp_list.append(l)
-                js_files_3rd_lvl_original.clear()
-                js_files_3rd_lvl_original = tmp_list
+                print(l)
+    js_files_3rd_lvl_original.clear()
+    js_files_3rd_lvl_original = tmp_list
 
-            print(l)
-
-for g in js_files_3rd_lvl_original:
-    print(g)
     #main_func(js_files_3rd_lvl, js_files_4th_lvl)
+

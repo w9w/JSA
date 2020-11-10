@@ -28,7 +28,6 @@ else:
     print("Please specify js file in STDIN or in argument -f!")
     exit()
 
-
 # js_file = open("/Users/max/test13.txt", "r").readlines()
 
 
@@ -46,48 +45,47 @@ js_files_3rd_lvl = []
 
 all_endpoints_3rd_lvl = []
 all_endpoints_3rd_lvl_original = []
+tmp_list = []
 js_files_4th_lvl = []  ## just for passing it to the main func, it won't be processed actually
 
+
 ####
-now = datetime.now()
-now = str(now).replace(" ", "_").replace(":", "-")
-now = re.sub("\..*?$", "", now)
+# now = datetime.now()
+# now = str(now).replace(" ", "_").replace(":", "-")
+# now = re.sub("\..*?$", "", now)
 
-curpath = os.path.abspath(os.curdir)
+# curpath = os.path.abspath(os.curdir)
 
-directory_with_js_files = "%s/js_files/%s/" % (curpath, now)  ## directory of downloaded js files for other tools
+# directory_with_js_files = "%s/js_files/%s/" % (curpath, now)  ## directory of downloaded js files for other tools
 
 
 ###
 
-def deduplication(input, original_lines):       ## filtering + deduplication
+def deduplication(input, original_lines):  ## filtering + deduplication
     existing_lines = []
     for line in input:  ## Filtering the output of subjs (#$ and ?v=$)
         line = re.sub("\\?v=.*?$", "", line)
         line = re.sub("#.*?$", "", line)
         existing_lines.append(line)
-    for line in existing_lines:         ## Deleting duplicates
+    for line in existing_lines:  ## Deleting duplicates
         line = line.strip()
         if line not in original_lines:
             original_lines.append(line)
 
 
-
 def main_func(original_lines, js_files, all_endpoints):
     for line in original_lines:  ## main loop
 
-        # tld = re.sub("^[a-z]+\.", "", domain_name)              ## matching TLD
-
         clear_url0 = re.findall("^(.*?)\\b/", line)
+        global clear_url
         clear_url = re.sub("\['|'\]", "", str(clear_url0))  ## matching URL without js part
         domain_name = tld_detection(clear_url)
         if "[]" in clear_url:
             continue
         if str(domain_name) not in str(line) and exclude is True:
-                                                    ## excluding 3rd party js files & print 'em
+            ## excluding 3rd party js files & print 'em
 
-            print("3rd party JS file has been found: " + line)
-            continue
+            print("Possible (if not CDN) 3rd party JS file has been found: " + line)
         warnings.simplefilter('ignore', InsecureRequestWarning)
         js_file_status = requests.head(line,
                                        verify=False).status_code  ## fastly (HEAD) finding out a status code of js file url
@@ -104,7 +102,6 @@ def main_func(original_lines, js_files, all_endpoints):
             u = re.findall("\"\/[a-zA-Z0-9_?&=/\-\#\.]*\"", js_file_content.text)  ## matching "string"
             u = str(u).replace("', '", "\n").replace("[]", "")
             u = re.sub("\['|'\]|\"", "", u)
-            u = re.sub("^", clear_url, u, flags=re.M)
             u = re.sub(
                 ".css|.png|.jpg|.svg|.jpeg|.ico|.gif|.woff|.woff2|.swf", "", u,
                 flags=re.M)  ## excluding not desirable file extensions
@@ -112,19 +109,28 @@ def main_func(original_lines, js_files, all_endpoints):
                        flags=re.M)  ##preparing for deduplication with / /? # deleting
             u = re.sub("(\n\n)", "\n", u, flags=re.M)
 
+            if re.findall("^//", u):
+                u = re.sub("^//(.*?)/", clear_url + "/", u, flags=re.M)  ## it's for js files
+            else:
+                u = re.sub("^", clear_url, u, flags=re.M)
             u_lines = io.StringIO(u).readlines()  ## endpoints
 
             for one in u_lines:
                 if re.findall("\.js$", one):
                     if re.findall("^//", one) and verbose is True:  ## excluding 3rd party 2nd lvl js files & print 'em
-                        print("3rd party JS file has been found: " + one)
+                        if not re.findall("^//%s" % domain_name, one):
+                            print("Possible (if not CDN) 3rd party JS file has been found: " + one)
+                    if re.findall("^//", one):
+                        one = re.sub("^//(.*?)/", clear_url + "/", one)  # one = re.sub("\n", "", one)
+                        js_files.append(one)
+                    if re.findall("^/", one):
+                        one = re.sub("^/", clear_url + "/", one)
                     if re.findall("^\b", one):  ## if js file doesn't have / at ^, it'll be added
-                        one = re.sub("^\b", clear_url + "/", one)  # one = re.sub("\n", "", one)
+                        one = re.sub("^", clear_url + "/", one)  # one = re.sub("\n", "", one)
                         js_files.append(one)
                     if re.findall("^\[\]/", one):
                         one = re.sub("^\[\]", clear_url, one)
                         js_files.append(one)
-                        print(clear_url)
                     else:  ## printing js files found on 2nd level
                         js_files.append(one)
                 else:
@@ -137,7 +143,6 @@ def main_func(original_lines, js_files, all_endpoints):
 
 deduplication(js_file, original_lines)
 main_func(original_lines, js_files_2nd_lvl, all_endpoints_1st_lvl)
-
 
 if len(all_endpoints_1st_lvl) != 0:
     temp0 = []
@@ -156,8 +161,8 @@ if len(all_endpoints_1st_lvl) != 0:
                 l = l.replace("[]//", "//%s" % clear_domain)
                 temp0.append(l)
 
-            if not re.findall("%s/\W" % clear_domain,l):  ## deleting endpoints containing
-                                                        ## non-word character (not a-z0-9) http(s)://domain.com/(.|[]{},
+            if not re.findall("%s/\W" % clear_domain, l):  ## deleting endpoints containing
+                ## non-word character (not a-z0-9) http(s)://domain.com/(.|[]{},
                 if not re.findall("%s/[a-z0-9]{1}$" % clear_domain,
                                   l):  ## deleting endpoints containing 1 word character like http(s)://domain.com/1|a|1a;
                     temp0.append(l)  ## most likely to be an endpoint and not a javascript variable
@@ -172,25 +177,26 @@ if len(all_endpoints_1st_lvl) != 0:
         else:
             print(l)
 
-js_files_2nd_lvl_original = []
-
 if len(js_files_2nd_lvl) != 0:  ## processing 2nd level js files
-    if verbose is True:
-        print("\nJS files 2nd level:\n")
+    printed = False
+    js_files_2nd_lvl_original = []
     deduplication(js_files_2nd_lvl, js_files_2nd_lvl_original)  ## removing dupes
     for l in js_files_2nd_lvl_original:  ## printing a list
 
         j2 = re.findall("\.js$", l)  ## sometimes (I don't know why though), non-js files leak to the list
         if len(j2) == 0:
             continue
-        elif verbose is True and l not in original_lines:
-            print(l)
+        if l not in original_lines:
+            if printed is False and verbose is True:                ## printing a text only one time if verbose mode
+                print("\nJS files 2nd level:\n")
+                printed = True
+            if verbose is True:
+                print(l)
 
     main_func(js_files_2nd_lvl_original, js_files_3rd_lvl, all_endpoints_2nd_lvl)
 
 if len(js_files_3rd_lvl) != 0:
-    if verbose is True:
-        print("JS files 3rd level:\n")
+    printed = False
     js_files_3rd_lvl_original = []
     deduplication(js_files_3rd_lvl, js_files_3rd_lvl_original)  ## removing dupes
     for l in js_files_3rd_lvl_original:  ## printing a list
@@ -198,10 +204,18 @@ if len(js_files_3rd_lvl) != 0:
         j3 = re.findall("\.js$", l)  ## sometimes (I don't know why though), non-js files leak to the list
         if len(j3) == 0:
             continue
-        elif verbose is True and l not in js_files_2nd_lvl_original and original_lines:
-            print(l)
+        if l not in js_files_2nd_lvl_original and original_lines:
+            if printed is False and verbose is True:                ## printing a text only one time if verbose mode
+                print("\nJS files 3rd level:\n")
+                printed = True
+            if verbose is True:
+                if re.findall("^htt(p|s)(.*?)\w//(.*?)/", l):
+                    l = re.sub("^htt(p|s)(.*?)\w//(.*?)/", clear_url + "/", l, flags=re.M)
+                print(l)
 
     main_func(js_files_3rd_lvl, js_files_4th_lvl, all_endpoints_3rd_lvl)
+
+
 
 if all_endpoints_2nd_lvl:  ## printing 2nd level endpoints
     temp1 = []
@@ -228,21 +242,19 @@ if all_endpoints_2nd_lvl:  ## printing 2nd level endpoints
 
     all_endpoints_2nd_lvl.clear()  ## deleting current list w/ endpoints
     all_endpoints_2nd_lvl = temp1  ##substitution
-
-
-    if verbose is True:
-        print("Endpoints 2nd level:\n")
-    all_endpoints_2nd_lvl_original = []  ## deleting dupes
-    deduplication(all_endpoints_2nd_lvl, all_endpoints_2nd_lvl_original)
+    printed = False
+    deduplication(all_endpoints_2nd_lvl, all_endpoints_2nd_lvl_original)    ## deleting dupes
     for l in all_endpoints_2nd_lvl_original:  ## printing a lists
         if "[]" in l:
             continue
         elif l not in all_endpoints_original:
+            if printed is False and verbose is True:            ## printing a text only one time if verbose mode
+                print("\nEndpoints 2nd level:\n")
+                printed = True
             print(l)  ##printing URL with endpoint if it's original
 
-all_endpoints_3rd_lvl_original = []
-
 if all_endpoints_3rd_lvl:
+    all_endpoints_3rd_lvl_original = []
     temp2 = []
     for l in all_endpoints_3rd_lvl:
 
@@ -267,15 +279,16 @@ if all_endpoints_3rd_lvl:
 
     all_endpoints_3rd_lvl.clear()  ## deleting current list w/ endpoints
     all_endpoints_3rd_lvl = temp2  ##substitution
-
-    if verbose is True:
-        print("Endpoints 3rd level:\n")
+    printed = False
     all_endpoints_2nd_lvl_original = []  ## deleting dupes
     deduplication(all_endpoints_3rd_lvl, all_endpoints_3rd_lvl_original)
     for l in all_endpoints_3rd_lvl_original:  ## printing a lists
         if "[]" in l:
             continue
         elif l not in all_endpoints_original and all_endpoints_2nd_lvl_original:
+            if printed is False and verbose is True:
+                print("Endpoints 3rd level:\n")
+                printed = True
             print(l)
 
 # if os.path.exists(directory_with_js_files) is True:

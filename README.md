@@ -1,8 +1,8 @@
-## JS_Extractor is an "all in one" tool for javascript files' checking during web application security assessment.
+Javascript security analysis monster (JSAM) is a program for javascript analysis during web application security assessment.
 
-# What the tool can do:
+# Tool's capabilities:
 
-- Firstly, it modifies found endpoins in the javascript file from /endpoint to http(s)://host_from_js_file.com/endpoint. This is a very usefull approach when you have a huge list of javascript files and would like to verify affiliation to specified host. It makes massive javascript files check easy.
+- It modifies found endpoins in the javascript file from /endpoint to http(s)://host_from_js_file.com/endpoint. This is a very usefull approach when you have a huge list of javascript files and would like to verify affiliation to specified host. It makes massive javascript files check easy.
 - Look for js files inside the first and second level js files. For example, http(s)://host.com/file.js contains a string "//host.com/file.js" which could be different from already known 1st level js files and contain additional endpoints or secrets.
 - Display endpoints for the second level js files.
 - Exclude and print 3rd party js files like https://googleapis.com or //facebook.net (most likely 2nd level js file) to reduce script runtime and remove unnecessary endpoints. Also, it is usefull to identify 3rd party js files since we can expande our attack surface and attack a 3rd party website to try to make change to the javascript file.

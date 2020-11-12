@@ -2,7 +2,7 @@
 
 url=$1
 
-status_code=$(echo $url | httpx -status-code -silent -no-color | grep -oP '(?<=\[).*(?=\])')
+status_code=$(echo $url | httpx -x HEAD -status-code -silent -no-color | grep -oP '(?<=\[).*(?=\])')
 
 if [[ $status_code != 200 ]]
 then

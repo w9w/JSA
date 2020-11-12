@@ -18,5 +18,5 @@ GO111MODULE=on go get -u -v github.com/projectdiscovery/httpx/cmd/httpx
 printf "Arjun installation.. (Thanks to Somdev Sangwan :) )\n"
 git clone https://github.com/w9w/Arjun.git
 
-chmod +x automation_multitool_for_js.sh
+chmod +x automation.sh
 chmod +x automation/404_js_wayback.sh

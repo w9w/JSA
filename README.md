@@ -1,4 +1,4 @@
-Javascript security analysis monster (JSAM) is a program for javascript analysis during web application security assessment.
+Javascript security analysis (JSA) is a program for javascript analysis during web application security assessment.
 
 # Tool's capabilities:
 

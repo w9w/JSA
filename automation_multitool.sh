@@ -11,11 +11,14 @@ random_str=$(printf %s ${array[@]::23})
 printf 'Fetching js files with subjs tool..\n'
 printf ${stdin} | subjs | tee tmp/subjs${random_str}.txt >/dev/null    ## fetching js files with subjs tool
 
-printf 'Launching Gau..\n'
-printf ${stdin} | gau -random-agent | tee tmp/gau${random_str}.txt >/dev/null   ##gau
+printf 'Launching Gau with wayback..\n'
+printf ${stdin} | xargs -I{} echo "{}/*&filter=mimetype:application/javascript&somevar=" | gau -providers wayback -subs -random-agent | tee tmp/gau${random_str}.txt >/dev/null   ##gau
+printf ${stdin} | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" | gau -providers wayback -subs -random-agent | tee tmp/gau${random_str}.txt >/dev/null   ##gau
+
+
 
 printf 'Now crawling web pages..\n'
-printf ${stdin} | hakrawler -js -plain -subs -insecure | tee tmp/spider${random_str}.txt >/dev/null   ##just crawling web pages
+printf ${stdin} | hakrawler -js -plain -subs -insecure -depth 3 | tee tmp/spider${random_str}.txt >/dev/null   ##just crawling web pages
 ## maybe it'll give different results than subjs
 
 ## searching for URLs in github

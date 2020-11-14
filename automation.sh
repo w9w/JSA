@@ -17,8 +17,8 @@ printf $stdin | subjs | tee tmp/subjs${random_str}.txt >/dev/null
 
 ## lauching wayback with a "js only" mode to reduce execution time
 printf 'Launching Gau with wayback..\n'
-printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:application/javascript&somevar=" | gau -providers wayback -subs -random-agent | tee tmp/gau${random_str}.txt >/dev/null   ##gau
-printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" | gau -providers wayback -subs -random-agent | tee -a tmp/gau${random_str}.txt >/dev/null   ##gau
+printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:application/javascript&somevar=" | gau -providers wayback -random-agent | tee tmp/gau${random_str}.txt >/dev/null   ##gau
+printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" | gau -providers wayback -random-agent | tee -a tmp/gau${random_str}.txt >/dev/null   ##gau
 
 
 ## if js file parsed from wayback didn't returne 200 live, we are generating a URL to see a file's content on wayback's server;

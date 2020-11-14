@@ -26,7 +26,7 @@ printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" 
 ## only wayback as of now
 
 printf "Fetching a content of 404 js files from wayback.."
-cat tmp/gau${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | sort -u | parallel "printf '{}' | tee tmp/gau200ok${random_str}.txt >/dev/null || automation/./404_js_wayback.sh '{}' | tee -a tmp/creds_search${random_str}.txt >/dev/null"
+cat tmp/gau${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | sort -u | parallel "printf '{}' | tee tmp/gau200ok${random_str}.txt >/dev/null && automation/./404_js_wayback.sh '{}' | tee -a tmp/creds_search${random_str}.txt >/dev/null"
 
 
 ## Classic crawling. It could give different results than subjs tool
@@ -69,4 +69,4 @@ printf "Arjun parameters discovery.."
 cat tmp/all_endpoints_unique${random_str}.txt | parallel "python3 /root/scripts/Arjun/arjun.py -f /root/scripts/Arjun/db/big.txt -t 12 --get -u {}"
 
 
-rm tmp/subjs${random_str}.txt tmp/gau${random_str}.txt tmp/spider${random_str}.txt tmp/gh${random_str}.txt tmp/all_js_files${random_str}.txt tmp/all_endpoints${random_str}.txt tmp/all_endpoints_unique${random_str}.txt
+rm tmp/subjs${random_str}.txt tmp/gau${random_str}.txt tmp/gau200ok${random_str}.txt tmp/spider${random_str}.txt tmp/gh${random_str}.txt tmp/all_js_files${random_str}.txt tmp/all_endpoints${random_str}.txt tmp/all_endpoints_unique${random_str}.txt

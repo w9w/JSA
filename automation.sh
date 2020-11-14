@@ -26,7 +26,7 @@ printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" 
 ## only wayback as of now
 
 printf "Fetching a content of 404 js files from wayback.."
-cat tmp/gau${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | sort -u | parallel 'printf "{}" | tee tmp/gau200ok${random_str}.txt >/dev/null || automation/./404_js_wayback.sh "{}" | tee -a tmp/creds_search${random_str}.txt >/dev/null'
+cat tmp/gau${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | sort -u | parallel "printf '{}' | tee tmp/gau200ok${random_str}.txt >/dev/null || automation/./404_js_wayback.sh '{}' | tee -a tmp/creds_search${random_str}.txt >/dev/null"
 
 
 ## Classic crawling. It could give different results than subjs tool
@@ -38,14 +38,14 @@ printf $stdin | hakrawler -js -plain -subs -insecure -depth 3 | tee tmp/spider${
 ## python one-liner - for clear domain matching
 
 printf 'Searching for URLs in GH..\n'
-printf ${stdin} | python3 -c "import re,sys; str0=str(sys.stdin.readlines()); str1=re.search('(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]', str0);  print(str1.group(0)) if str1 is not None else exit()" | xargs -I{} python3 ~/scripts/github-search/github-endpoints.py -d {} | tee tmp/gh${random_str}.txt >/dev.null
+printf ${stdin} | python3 -c "import re,sys; str0=str(sys.stdin.readlines()); str1=re.search('(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]', str0);  print(str1.group(0)) if str1 is not None else exit()" | xargs -I{} python3 ~/scripts/github-search/github-endpoints.py -d {} | grep '\.js' | tee tmp/gh${random_str}.txt >/dev.null
     
     
 ## sorting out all the results
 
 ##that's for creds_check
 
-cat tmp/subjs${random_str}.txt tmp/gau200ok${random_str}.txt tmp/gh${random_str}.txt tmp/spider${random_str}.txt | cut -d '?' -f1 | grep -E '\.js(?:onp?)?$' | sort -u | tee tmp/all_js_files${random_str}.txt >/dev/null 
+cat tmp/subjs${random_str}.txt tmp/gau200ok${random_str}.txt tmp/gh${random_str}.txt tmp/spider${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | grep -E '\.js(?:onp?)?$' | sort -u | tee tmp/all_js_files${random_str}.txt >/dev/null 
 
 ## save all endpoints to the file for future processing
 
@@ -66,7 +66,7 @@ cat tmp/all_js_files${random_str}.txt tmp/creds_search${random_str}.txt | parall
 ## parameters bruteforcing with modified Arjun
 
 printf "Arjun parameters discovery.."
-cat tmp/all_endpoints_unique${random_str}.txt | parallel 'python3 /root/scripts/Arjun/arjun.py -f /root/scripts/Arjun/db/big.txt -t 12 --get -u {}'
+cat tmp/all_endpoints_unique${random_str}.txt | parallel "python3 /root/scripts/Arjun/arjun.py -f /root/scripts/Arjun/db/big.txt -t 12 --get -u {}"
 
 
 rm tmp/subjs${random_str}.txt tmp/gau${random_str}.txt tmp/spider${random_str}.txt tmp/gh${random_str}.txt tmp/all_js_files${random_str}.txt tmp/all_endpoints${random_str}.txt tmp/all_endpoints_unique${random_str}.txt

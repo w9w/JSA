@@ -60,7 +60,7 @@ cat tmp/all_endpoints${random_str}.txt | sort -u  | tee tmp/all_endpoints_unique
 ## credentials checking
 
 printf "Checking our sweet js files for credentials.."
-cat tmp/all_js_files${random_str}.txt tmp/creds_search${random_str}.txt | parallel "nuclei -t templates/credentials-disclosure-all.yaml -nC -silent -target {}"
+cat tmp/all_js_files${random_str}.txt tmp/creds_search${random_str}.txt | parallel "nuclei -t /root/scripts/JSA/templates/credentials-disclosure-all.yaml -nC -silent -target {}"
 
 
 ## parameters bruteforcing with modified Arjun

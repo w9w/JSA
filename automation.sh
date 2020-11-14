@@ -25,7 +25,8 @@ printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" 
 ## it's useless for endpoints discovery but there exists a point to search for credentials in the old conteent; that's what we'll do
 ## only wayback as of now
 
-cat tmp/gau${random_str}.txt | cut -d '?' -f1 | sort -u | parallel 'printf "{}" | tee tmp/gau200ok${random_str}.txt >/dev/null & automation/./wayback_for_404_js.sh "{}" | tee -a tmp/creds_search${random_str}.txt >/dev/null & wait'
+printf "Fetching a content of 404 js files from wayback.."
+cat tmp/gau${random_str}.txt | cut -d '?' -f1 | sort -u | parallel 'printf "{}" | tee tmp/gau200ok${random_str}.txt >/dev/null & automation/./404_js_wayback.sh "{}" | tee -a tmp/creds_search${random_str}.txt >/dev/null & wait'
 
 
 ## Classic crawling. It could give different results than subjs tool

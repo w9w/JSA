@@ -26,7 +26,7 @@ printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" 
 ## only wayback as of now
 
 printf "Fetching a content of 404 js files from wayback.."
-cat tmp/gau${random_str}.txt | cut -d '?' -f1 | sort -u | parallel 'printf "{}" | tee tmp/gau200ok${random_str}.txt >/dev/null & automation/./404_js_wayback.sh "{}" | tee -a tmp/creds_search${random_str}.txt >/dev/null & wait'
+cat tmp/gau${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | sort -u | parallel 'printf "{}" | tee tmp/gau200ok${random_str}.txt >/dev/null & automation/./404_js_wayback.sh "{}" | tee -a tmp/creds_search${random_str}.txt >/dev/null & wait'
 
 
 ## Classic crawling. It could give different results than subjs tool

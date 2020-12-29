@@ -12,7 +12,7 @@ GO111MODULE=on go get -u -v github.com/hakluke/hakrawler
 printf "github-endpoints.py wgetting.. (Thanks to Gwendal Le Coguic :) )\n\n"
 wget https://github.com/gwen001/github-search/raw/master/github-endpoints.py
 
-printf "Nuclei & httpx installation.. (Thanks to @m4ll0k :) )\n\n"
+printf "Nuclei & httpx installation.. (Thanks to @projectdiscovery :) )\n\n"
 GO111MODULE=on go get -u -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
 
 GO111MODULE=on go get -u -v github.com/projectdiscovery/httpx/cmd/httpx

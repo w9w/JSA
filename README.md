@@ -55,22 +55,22 @@ echo "http(s)://host.com" | ./automation.sh
 ### Roadmap:
 
 - ✅ replace \[]// with http(s) host.tld /, if it exists;
-- ⬜️ perform a check on every <script> part in the html page
 - ✅ deletion of duplicate files of the second level in relation to the files of the first level;
 - ✅ setting the js file in the parameter when calling the program, still saving stdin;
 - ✅ output the second level js files **optionally**, by parameter;
-- ⬜️ save all found endpoints to a file **optionally**, by parameter;
-- ⬜️ save all found deep-level js files to a file **optionally**, by parameter;
 - ✅ improve the exclusion of 3rd party scripts by domain for multiple domains during bulk scanning, if possible;
-- ✅ define domain and tld using re depending on line, if it's possible;
-- ⬜️ check available HTTP methods for endpoints;
-- ⬜️ retire js check via downloading js files to the temporary directory using wget;
-- ✅ credentials leak check using secretfinder.py with extended regular expressions;
+- ✅ define domain and tld using re depending on line, if it's possible (yes but I need to update tlds contantly);
+- ✅ credentials leak check using  ̶s̶e̶c̶r̶e̶t̶f̶i̶n̶d̶e̶r̶.̶p̶y̶ nuclei with extended regular expressions;
 - ✅ brute-forcing parameters for endpoints using arjun.py;
-- ⬜️ make a file with endpoints along with parameters for pipelining to check for XSS'es, CORS misconfigs, etc.
+- ⬜️ save all found endpoints to a file **optionally**, by parameter (maybe);
+- ⬜️ save all found deep-level js files to a file **optionally**, by parameter (maybe);
+- ⬜️ perform a check on every <script> part in the html page;
+- ⬜️ check available HTTP methods for endpoints;
+- ⬜️ check whether endpoints should be applied to the host from the page itself or from js file (CDNs, etc);
+- ⬜️ retire js check via downloading js files to the temporary directory using wget;
 - ⬜️ identificate and process .map files;
-- ⬜️ rewrite a tool in Golang;
-- ⬜️ multithreading, - only in Golang (multithreading in Python is terrible imo).
+- ⬜️ rewrite a tool in Golang (I need to learn Golang first);
+- ⬜️ multithreading, - only in Golang (multithreading in Python is terrible from my experience).
 
 Special thanks to these beautiful people from whom I  ̶s̶h̶a̶m̶e̶f̶u̶l̶l̶y̶ ̶s̶t̶e̶a̶l̶e̶d̶ borrowed some tools for automation.sh :D :
 
@@ -80,6 +80,9 @@ Gwendal Le Coguic @gwen001 for https://github.com/gwen001/github-search/raw/mast
 Project discovery @projectdiscovery for github.com/projectdiscovery/nuclei and github.com/projectdiscovery/httpx;
 Somdev Sangwan @s0md3v for https://github.com/s0md3v/Arjun (I needed to fork it for automation ease).
 
+ ̶I̶n̶t̶e̶n̶d̶e̶d̶ ̶f̶e̶a̶t̶u̶r̶e̶s̶ knwon bugs:
+ - absolute path could be incorrect;
+ - Arjun doesn't have good calibration and can return as much parameters as you have in the wordlist.
 
 # Ways to contribute
 

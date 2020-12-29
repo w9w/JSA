@@ -1,3 +1,5 @@
+#bin/bash
+
 printf "Subjs installation.. (Thanks to Corben Leo :) )\n\n"
 GO111MODULE=on go get -u -v github.com/lc/subjs
 

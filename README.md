@@ -34,7 +34,7 @@ echo "https://subdomain.host.com" | subjs | python3 js_extractor.py
 
 # Usage for massive and parallel scanning (~lightning-fast execution):
 
-cat ~/lists/domains/host.com/http_s_hosts.txt | subjs | parallel -j 20 'echo "{}" | python3 /root/js_extract.py'.
+cat ~/lists/domains/host.com/http_s_hosts.txt | subjs | parallel -j 20 'echo "{}" | python3 /root/JSA/jsa.py'.
 
 You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forget to delete that annoying message.
 

@@ -21,8 +21,8 @@ printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:application/javascript&som
 printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" | gau -providers wayback -random-agent | tee -a tmp/gau${random_str}.txt >/dev/null   ##gau
 
 
-## if js file parsed from wayback didn't returne 200 live, we are generating a URL to see a file's content on wayback's server;
-## it's useless for endpoints discovery but there exists a point to search for credentials in the old conteent; that's what we'll do
+## if js file parsed from wayback didn't return 200 live, we are generating a URL to see a file's content on wayback's server;
+## it's useless for endpoints discovery but there is a point to search for credentials in the old content; that's what we'll do
 ## only wayback as of now
 
 printf "Fetching URLs for 404 js files from wayback..\n"
@@ -31,7 +31,7 @@ cat tmp/gau${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | sort -u | xargs
 
 ## Classic crawling. It could give different results than subjs tool
 printf 'Now crawling web pages..\n'
-printf $stdin | hakrawler -js -plain -subs -insecure -depth 3 | tee tmp/spider${random_str}.txt >/dev/null   ##just crawling web pages
+printf $stdin | hakrawler -js -plain -subs -insecure -depth 2 | tee tmp/spider${random_str}.txt >/dev/null   ##just crawling web pages
 
 
 ## Searching for URLs in github, - that could give some unique results, too

@@ -25,8 +25,8 @@ printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" 
 ## it's useless for endpoints discovery but there exists a point to search for credentials in the old conteent; that's what we'll do
 ## only wayback as of now
 
-printf "Fetching a content of 404 js files from wayback.."
-cat tmp/gau${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | sort -u | parallel "printf '{}' | tee tmp/gau200ok${random_str}.txt >/dev/null && automation/./404_js_wayback.sh '{}' | tee -a tmp/creds_search${random_str}.txt >/dev/null"
+printf "Fetching URLs for 404 js files from wayback..\n"
+cat tmp/gau${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | sort -u | xargs -I{} sh -c automation/./404_js_wayback.sh {} | tee -a tmp/creds_search${random_str}.txt >/dev/null
 
 
 ## Classic crawling. It could give different results than subjs tool
@@ -45,7 +45,7 @@ printf ${stdin} | python3 -c "import re,sys; str0=str(sys.stdin.readlines()); st
 
 ##that's for creds_check
 
-cat tmp/subjs${random_str}.txt tmp/gau200ok${random_str}.txt tmp/gh${random_str}.txt tmp/spider${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | grep -E '\.js(?:onp?)?$' | sort -u | tee tmp/all_js_files${random_str}.txt >/dev/null 
+cat tmp/subjs${random_str}.txt tmp/gau${random_str}.txt tmp/gh${random_str}.txt tmp/spider${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | grep -E '\.js(?:onp?)?$' | sort -u | tee tmp/all_js_files${random_str}.txt >/dev/null 
 
 ## save all endpoints to the file for future processing
 
@@ -69,4 +69,4 @@ printf "Arjun parameters discovery.."
 cat tmp/all_endpoints_unique${random_str}.txt | parallel "python3 Arjun/arjun.py -f Arjun/db/params.txt -t 12 --get -u {}"
 
 
-rm tmp/subjs${random_str}.txt tmp/gau${random_str}.txt tmp/gau200ok${random_str}.txt tmp/spider${random_str}.txt tmp/gh${random_str}.txt tmp/all_js_files${random_str}.txt tmp/all_endpoints${random_str}.txt tmp/all_endpoints_unique${random_str}.txt
+rm tmp/subjs${random_str}.txt tmp/gau${random_str}.txt tmp/spider${random_str}.txt tmp/gh${random_str}.txt tmp/all_js_files${random_str}.txt tmp/all_endpoints${random_str}.txt tmp/all_endpoints_unique${random_str}.txt

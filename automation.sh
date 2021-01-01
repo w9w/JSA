@@ -51,22 +51,22 @@ cat tmp/subjs${random_str}.txt tmp/gau${random_str}.txt tmp/gh${random_str}.txt 
 
 ## extracting js files from js files
 printf "Printing deep-level js files..\n"
-cat tmp/all_js_files${random_str}.txt | parallel "printf '{}' | python3 automation/js_files_extraction.py | tee -a tmp/all_js_files${random_str}.txt"
+cat tmp/all_js_files${random_str}.txt | parallel --gnu --pipe -j 15 "python3 automation/js_files_extraction.py | tee -a tmp/all_js_files${random_str}.txt"
 
 printf "Searching for endpoints..\n"
-cat tmp/all_js_files${random_str}.txt | parallel "python3 automation/endpoints_extraction.py -f {} | tee -a tmp/all_endpoints${random_str}.txt"
+cat tmp/all_js_files${random_str}.txt | parallel --gnu --pipe -j 15 "python3 automation/endpoints_extraction.py | tee -a tmp/all_endpoints${random_str}.txt"
 cat tmp/all_endpoints${random_str}.txt | sort -u  | tee tmp/all_endpoints_unique${random_str}.txt >/dev/null
 
 ## credentials checking
 
 printf "Checking our sweet js files for credentials.."
-cat tmp/all_js_files${random_str}.txt tmp/creds_search${random_str}.txt | parallel "nuclei -t templates/credentials-disclosure-all.yaml -nC -silent -target {}"
+cat tmp/all_js_files${random_str}.txt tmp/creds_search${random_str}.txt | parallel --gnu -j 15 "nuclei -t templates/credentials-disclosure-all.yaml -nC -silent -target {}"
 
 
 ## parameters bruteforcing with modified Arjun
 
 printf "Arjun parameters discovery.."
-cat tmp/all_endpoints_unique${random_str}.txt | parallel "python3 Arjun/arjun.py -f Arjun/db/params.txt -t 12 --get -u {}"
+cat tmp/all_endpoints_unique${random_str}.txt | parallel -j 15 "python3 Arjun/arjun.py -f Arjun/db/params.txt -t 12 --get -u {}"
 
 
 rm tmp/subjs${random_str}.txt tmp/gau${random_str}.txt tmp/spider${random_str}.txt tmp/gh${random_str}.txt tmp/all_js_files${random_str}.txt tmp/all_endpoints${random_str}.txt tmp/all_endpoints_unique${random_str}.txt

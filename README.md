@@ -15,17 +15,17 @@ Javascript security analysis (JSA) is a program for javascript analysis during w
 # Capabilities of automation.sh:
 
 - Searching for js files for provided host (http(s)://host.tld) in stdin using:
-  - Wayback Machine (GAU), - I'm using mimetype:(application|text)/javascript to reduce execution time;
-  - Crawling (hackrawler);
+  - Wayback Machine (GAU), - launching wayback with `mimetype:(application|text)/javascript` to reduce execution time;
   - subjs tool;
-  - GitHub search (github.py).
+  - Crawling (hackrawler) (classic crawling for js files only with `depth 3`; t could give different results than subjs tool)
+  - GitHub search (github.py; it could give some unique results, too)
 - Extraction of js files from js files.
 - Printing endpoints.
-- Processing Wayback Machine output and separating 200 OK js files from non-existent. If a file is deleted on the host, the script automation/./404_js_wayback.sh will save a link in the way https://web.archive.org/web/20060102150405if_/$url for credentials checking.
+-  Separating 200 OK js files from non-existent and processing Wayback Machine output. If js file parsed from wayback didn't return 200 OK, we are generating a URL (https://web.archive.org/web/20060102150405if_/$url) to see a file's content on wayback's server; it's ~useless for endpoints discovery but there is a point to search for credentials in the old content - that's what we'll do.
 - Checking for credentials leakage using nuclei and a custom template containing 957 regexes on:
   - Alive js files (200 OK on the target host);
   - A copy of deleted js files from Wayback Machine.
-- Parameters discovery on found endpoints using Arjun.
+- Parameters discovery on found endpoints using modified Arjun (it still needs some improvements).
 
 # Usage & installation for jsa.py:
 git clone https://github.com/w9w/js_extractor.git && cd js_extractor

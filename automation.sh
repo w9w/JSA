@@ -38,7 +38,7 @@ printf $stdin | hakrawler -js -plain -subs -insecure -depth 3 | tee tmp/spider${
 ## python one-liner - for clear domain matching
 
 printf 'Searching for URLs in GH..\n'
-printf ${stdin} | python3 -c "import re,sys; str0=str(sys.stdin.readlines()); str1=re.search('(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]', str0);  print(str1.group(0)) if str1 is not None else exit()" | xargs -I{} python3 ~/scripts/github-search/github-endpoints.py -d {} | grep '\.js' | tee tmp/gh${random_str}.txt >/dev.null
+printf ${stdin} | python3 -c "import re,sys; str0=str(sys.stdin.readlines()); str1=re.search('(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,61}[a-z0-9]', str0);  print(str1.group(0)) if str1 is not None else exit()" | xargs -I{} python3 github-endpoints.py -d {} | grep '\.js' | tee tmp/gh${random_str}.txt >/dev.null
     
     
 ## sorting out all the results
@@ -60,13 +60,13 @@ cat tmp/all_endpoints${random_str}.txt | sort -u  | tee tmp/all_endpoints_unique
 ## credentials checking
 
 printf "Checking our sweet js files for credentials.."
-cat tmp/all_js_files${random_str}.txt tmp/creds_search${random_str}.txt | parallel "nuclei -t /root/scripts/JSA/templates/credentials-disclosure-all.yaml -nC -silent -target {}"
+cat tmp/all_js_files${random_str}.txt tmp/creds_search${random_str}.txt | parallel "nuclei -t templates/credentials-disclosure-all.yaml -nC -silent -target {}"
 
 
 ## parameters bruteforcing with modified Arjun
 
 printf "Arjun parameters discovery.."
-cat tmp/all_endpoints_unique${random_str}.txt | parallel "python3 /root/scripts/Arjun/arjun.py -f /root/scripts/Arjun/db/params.txt -t 12 --get -u {}"
+cat tmp/all_endpoints_unique${random_str}.txt | parallel "python3 Arjun/arjun.py -f Arjun/db/params.txt -t 12 --get -u {}"
 
 
 rm tmp/subjs${random_str}.txt tmp/gau${random_str}.txt tmp/gau200ok${random_str}.txt tmp/spider${random_str}.txt tmp/gh${random_str}.txt tmp/all_js_files${random_str}.txt tmp/all_endpoints${random_str}.txt tmp/all_endpoints_unique${random_str}.txt

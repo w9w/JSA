@@ -85,7 +85,7 @@ You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forg
 - ⬜️ rewrite a tool in Golang (I need to learn Golang first);
 - ⬜️ multithreading, - only in Golang (multithreading in Python is terrible from my experience).
 
-Special thanks to these beautiful people from who I  ̶s̶h̶a̶m̶e̶f̶u̶l̶l̶y̶ ̶s̶t̶e̶a̶l̶e̶d̶ borrowed some tools for automation.sh :D :
+Special thanks to these beautiful people from who I s̶t̶e̶a̶l̶e̶d̶ borrowed some tools for automation.sh :D :
 
 Corben Leo @lc for github.com/lc/subjs and github.com/lc/gau;
 

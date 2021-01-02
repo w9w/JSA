@@ -74,14 +74,14 @@ You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forg
 - ✅ define domain and tld using re depending on line, if it's possible (yes but I need to update tlds constantly);
 - ✅ credentials leak check using  ̶s̶e̶c̶r̶e̶t̶f̶i̶n̶d̶e̶r̶.̶p̶y̶ nuclei with extended regular expressions;
 - ✅ brute-forcing parameters for endpoints using arjun.py;
-- ⬜️ save all found endpoints to a file **optionally**, by a parameter (maybe);
-- ⬜️ save all found deep-level js files to a file **optionally**, by a parameter (maybe);
 - ⬜️ pull out every <script> part in the html page, analyzing it as a usual js file (saving and adding to the tool as file://);
+- ⬜️ js files discovery via brute-force method (javascript content-type recognition) using enhanced version of https://s3.amazonaws.com/assetnote-wordlists/data/automated/httparchive_js_2020_11_18.txt;
 - ⬜️ check available HTTP methods for endpoints (OPTIONS check);
 - ⬜️ check whether endpoints should be applied to the host from the page itself or js file (CDNs, etc);
 - ⬜️ retire js check via downloading js files to the temporary directory using wget (python module);
-- ⬜️ identificate and process .map files (maybe);
 - ⬜️ recognition of dynamic js;
+- ⬜️ save all found endpoints to a file **optionally**, by a parameter (maybe);
+- ⬜️ save all found deep-level js files to a file **optionally**, by a parameter (maybe);
 - ⬜️ rewrite a tool in Golang (I need to learn Golang first);
 - ⬜️ multithreading, - only in Golang (multithreading in Python is terrible from my experience).
 

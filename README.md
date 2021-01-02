@@ -12,6 +12,8 @@ Javascript security analysis (JSA) is a program for javascript analysis during w
 - Remove duplicates - js files and endpoints. By default, most of the tools for js grabbing (like subjs, gau, etc) can provide a list of js files containing duplicates. Even if they performed deduplication procedure, a list can still contain duplicates since, for example, http(s)://host.com/file.js and http(s)://host.com/file.js?identifier=random_str are the same js files. Deleting duplicates can greatly boost the program's performance.
 - Remove unnecessary files with such extensions .css|.png|.jpg|.svg|.jpeg|.ico|.gif|.woff|.woff2|.swf.
 
+[![asciicast](https://asciinema.org/a/0QzWKOxR18fStv7rxIkgrzt2I.svg)](https://asciinema.org/a/0QzWKOxR18fStv7rxIkgrzt2I)
+
 # Capabilities of automation.sh:
 
 - Searching for js files for provided host (http(s)://host.tld) in stdin using:

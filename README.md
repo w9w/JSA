@@ -32,24 +32,29 @@ Javascript security analysis (JSA) is a program for javascript analysis during w
 <img width="966" alt="Screenshot 2021-01-02 at 17 27 21" src="https://user-images.githubusercontent.com/38838852/103461010-ad341d80-4d23-11eb-82ca-398f0bd1c573.png">
 
 # Usage & installation for jsa.py:
-git clone https://github.com/w9w/js_extractor.git && cd js_extractor
-echo "https://host.com/file.js" | python3 js_extractor.py
+git clone https://github.com/w9w/JSA.git && cd JSA
+
+echo "https://host.com/file.js" | python3 jsa.py
 
 Example for pulling out js files and processing:
-echo "https://subdomain.host.com" | subjs | python3 js_extractor.py
 
-# Usage for massive and parallel scanning (~lightning-fast execution):
-
-cat ~/lists/domains/host.com/http_s_hosts.txt | subjs | parallel -j 20 'echo "{}" | python3 /root/JSA/jsa.py'.
-
-You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forget to delete that annoying message.
+echo "https://subdomain.host.com" | subjs | python3 jsa.py
 
 # Usage & installation for automation.sh:
 
 chmod +x installation.sh
+
 ./installation.sh
+
 copy your github API key to `.tokens`
+
 echo "http(s)://host.com" | ./automation.sh
+
+# Usage for massive and parallel scanning (~lightning-fast execution):
+
+cat ~/lists/domains/host.com/http_s_hosts.txt | subjs | parallel -j 20 'echo "{}" | python3 jsa.py'.
+
+You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forget to delete that annoying message.
 
 # Existing js files' analysis solutions:
 - **https://github.com/GerbenJavado/LinkFinder** - extracts relative URLs and some full URLs with http(s) prefix;

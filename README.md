@@ -55,14 +55,6 @@ echo "http(s)://host.com" | ./automation.sh
 cat ~/lists/domains/host.com/http_s_hosts.txt | subjs | parallel -j 20 'echo "{}" | python3 jsa.py'.
 
 You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forget to delete that annoying message.
-
-# Existing js files' analysis solutions:
-- **https://github.com/GerbenJavado/LinkFinder** - extracts relative URLs and some full URLs with http(s) prefix;
-- **https://portswigger.net/bappstore/0e61c786db0c4ac787a08c4516d52ccf** - same but can't be used for massive processing of js files;
-- **https://github.com/KathanP19/JSFScan.sh** - also relatives paths only but in addition these features:
-  - js discovering using gau on all the links and subjs;
-  - searching for secrets using SecretFinder (I was thinking a long time about SecretFinder vs nuclei and I found out that SecretFinder is not that reliable and it returns a lot of useless results even with improvements so I picked nuclei);
-  - printing variables and words.
   
 ### Roadmap:
 

@@ -4,12 +4,12 @@ Javascript security analysis (JSA) is a program for javascript analysis during w
 
 # Capabilities of jsa.py:
 
-- Looking for js files inside the first, second and third level js files. For example, http(s)://host.com/file.js contains a string "https://host.com/file.js" which could be different from already known 1st level js files and contain additional endpoints or secrets.
-- Displaying endpoints for the first, second and third level js files.
-- Modifying found endpoins in the javascript file from /endpoint to http(s)://host_from_js_file.com/endpoint. This is a very usefull approach when you have a huge list of javascript files and would like to collect a list of all URLS.
-- Excludeing and printing 3rd party js files like https://googleapis.com or //facebook.net (most likely 2nd level js file) to reduce script runtime and remove unnecessary endpoints. Also, it is usefull to identify 3rd party js files since we can expand our attack surface and exploit vulnerabilities on a 3rd party website to try to make change to the javascript file.
-- Checking the http code of the second and third level js files using HEAD method. If 200 - it goes for further processing (because all js files should have a 200 code, otherwise there will be no loading on the page), if 404 - then such a code indicates a non-existing file (or an unregistered host with a file) that can be uploaded by an attacker for the insertion on the target page.
-- Remove duplicates - js files and endpoints. By default, most of the tools for js grabbing (like subjs, gau, etc) can provide a list of js files containing duplicates. Even if they performed deduplication procedure, a list can still contain duplicates since, for example, http(s)://host.com/file.js and http(s)://host.com/file.js?identifier=random_str are the same js files. Deleting duplicates can greatly boost the program's performance.
+- Looking for js files inside the first, second, and third-level js files. For example, http(s)://host.com/file.js contains a string "https://host.com/file.js" which could be different from already known 1st level js files and have additional endpoints or secrets.
+- Displaying endpoints for the first, second, and third-level js files.
+- Modifying found endpoints in the javascript file from /endpoint to http(s)://host_from_js_file.com/endpoint. This approach is handy when you have a massive list of javascript files and want to collect a list of all URLs.
+- Excluding and printing 3rd party js files like https://googleapis.com or //facebook.net (most likely 2nd level js file) to reduce script runtime and remove unnecessary endpoints. It is useful to identify 3rd party js files since we can expand our attack surface and exploit vulnerabilities on a 3rd party website to change the javascript file.
+- Checking the http code of the second and third level js files using the HEAD method. If 200 - it goes for further processing (because all js files should have a 200 code; otherwise, there will be no loading on the page). If 404 - then such a code indicates a non-existing file that can be uploaded by an attacker for insertion on the target page.
+- Remove duplicates - js files and endpoints. By default, most of the js grabbing tools (like subjs, gau, etc) can provide a list of js files containing duplicates. Even if they performed a deduplication procedure, a list could still have duplicates since, for example, http(s)://host.com/file.js and http(s)://host.com/file.js?identifier=random_str are the same js files. Deleting duplicates can significantly boost the program's performance.
 - Remove unnecessary files with such extensions .css|.png|.jpg|.svg|.jpeg|.ico|.gif|.woff|.woff2|.swf.
 
 [![asciicast](https://asciinema.org/a/0QzWKOxR18fStv7rxIkgrzt2I.svg)](https://asciinema.org/a/0QzWKOxR18fStv7rxIkgrzt2I)
@@ -62,18 +62,18 @@ echo "http(s)://host.com" | ./automation.sh
 ### Roadmap:
 
 - ✅ replace \[]// with http(s) host.tld /, if it exists;
-- ✅ deletion of duplicate files of the second level in relation to the files of the first level;
+- ✅ deletion of duplicate files of the second level about the files of the first level;
 - ✅ setting the js file in the parameter when calling the program, still saving stdin;
 - ✅ output the second level js files **optionally**, by parameter;
 - ✅ improve the exclusion of 3rd party scripts by domain for multiple domains during bulk scanning, if possible;
-- ✅ define domain and tld using re depending on line, if it's possible (yes but I need to update tlds contantly);
+- ✅ define domain and tld using re depending on line, if it's possible (yes but I need to update tlds constantly);
 - ✅ credentials leak check using  ̶s̶e̶c̶r̶e̶t̶f̶i̶n̶d̶e̶r̶.̶p̶y̶ nuclei with extended regular expressions;
 - ✅ brute-forcing parameters for endpoints using arjun.py;
-- ⬜️ save all found endpoints to a file **optionally**, by parameter (maybe);
-- ⬜️ save all found deep-level js files to a file **optionally**, by parameter (maybe);
+- ⬜️ save all found endpoints to a file **optionally**, by a parameter (maybe);
+- ⬜️ save all found deep-level js files to a file **optionally**, by a parameter (maybe);
 - ⬜️ pull out every <script> part in the html page, analyzing it as a usual js file (saving and adding to the tool as file://);
 - ⬜️ check available HTTP methods for endpoints (OPTIONS check);
-- ⬜️ check whether endpoints should be applied to the host from the page itself or from js file (CDNs, etc);
+- ⬜️ check whether endpoints should be applied to the host from the page itself or js file (CDNs, etc);
 - ⬜️ retire js check via downloading js files to the temporary directory using wget (python module);
 - ⬜️ identificate and process .map files (maybe);
 - ⬜️ recognition of dynamic js;
@@ -88,11 +88,11 @@ Gwendal Le Coguic @gwen001 for https://github.com/gwen001/github-search/raw/mast
 Project discovery @projectdiscovery for github.com/projectdiscovery/nuclei and github.com/projectdiscovery/httpx;
 Somdev Sangwan @s0md3v for https://github.com/s0md3v/Arjun (I needed to fork it for automation ease).
 
- ̶I̶n̶t̶e̶n̶d̶e̶d̶ ̶f̶e̶a̶t̶u̶r̶e̶s̶ knwon bugs:
+ ̶I̶n̶t̶e̶n̶d̶e̶d̶ ̶f̶e̶a̶t̶u̶r̶e̶s̶ known bugs:
  - Absolute paths could be incorrect in some cases;
- - Arjun doesn't have good calibration and can return as much parameters as you have in the wordlist;
- - Sometimes the tool thinks that the 2nd/3rd js file is an endpoint and vise versa - I'll try to improve the detection;
- - If a host reponds for too long, there could be an error - I'll try to suppress this exception in the script;
+ - Arjun doesn't have good calibration and can return as many parameters as you have in the wordlist;
+ - Sometimes, the tool thinks that the 2nd/3rd js file is an endpoint and vise versa - I'll try to improve the detection;
+ - If a host responds for too long, there could be an error - I'll try to suppress this exception in the script;
  - 3rd party js files identify regarding js file's URL, not the parent host.
 
 # Ways to contribute

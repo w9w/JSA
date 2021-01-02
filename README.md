@@ -29,6 +29,8 @@ Javascript security analysis (JSA) is a program for javascript analysis during w
   - A copy of deleted js files from Wayback Machine.
 - Parameters discovery on found endpoints using modified Arjun (it still needs some improvements).
 
+<img width="966" alt="Screenshot 2021-01-02 at 17 27 21" src="https://user-images.githubusercontent.com/38838852/103461010-ad341d80-4d23-11eb-82ca-398f0bd1c573.png">
+
 # Usage & installation for jsa.py:
 git clone https://github.com/w9w/js_extractor.git && cd js_extractor
 echo "https://host.com/file.js" | python3 js_extractor.py

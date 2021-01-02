@@ -44,6 +44,7 @@ You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forg
 
 chmod +x installation.sh
 ./installation.sh
+copy your github API key to `.tokens`
 echo "http(s)://host.com" | ./automation.sh
 
 # Existing js files' analysis solutions:
@@ -66,15 +67,15 @@ echo "http(s)://host.com" | ./automation.sh
 - ✅ brute-forcing parameters for endpoints using arjun.py;
 - ⬜️ save all found endpoints to a file **optionally**, by parameter (maybe);
 - ⬜️ save all found deep-level js files to a file **optionally**, by parameter (maybe);
-- ⬜️ perform a check on every <script> part in the html page;
-- ⬜️ check available HTTP methods for endpoints;
+- ⬜️ pull out every <script> part in the html page, analyzing it as a usual js file (saving and adding to the tool as file://);
+- ⬜️ check available HTTP methods for endpoints (OPTIONS check);
 - ⬜️ check whether endpoints should be applied to the host from the page itself or from js file (CDNs, etc);
-- ⬜️ retire js check via downloading js files to the temporary directory using wget;
-- ⬜️ identificate and process .map files;
+- ⬜️ retire js check via downloading js files to the temporary directory using wget (python module);
+- ⬜️ identificate and process .map files (maybe);
 - ⬜️ rewrite a tool in Golang (I need to learn Golang first);
 - ⬜️ multithreading, - only in Golang (multithreading in Python is terrible from my experience).
 
-Special thanks to these beautiful people from whom I  ̶s̶h̶a̶m̶e̶f̶u̶l̶l̶y̶ ̶s̶t̶e̶a̶l̶e̶d̶ borrowed some tools for automation.sh :D :
+Special thanks to these beautiful people from who I  ̶s̶h̶a̶m̶e̶f̶u̶l̶l̶y̶ ̶s̶t̶e̶a̶l̶e̶d̶ borrowed some tools for automation.sh :D :
 
 Corben Leo @lc for github.com/lc/subjs and github.com/lc/gau;
 Luke Stephens @hakluke for github.com/hakluke/hakrawler;

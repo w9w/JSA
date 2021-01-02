@@ -19,8 +19,8 @@ Javascript security analysis (JSA) is a program for javascript analysis during w
 - Searching for js files for provided host (http(s)://host.tld) in stdin using:
   - Wayback Machine (GAU), - launching wayback with `mimetype:(application|text)/javascript` to reduce execution time;
   - subjs tool;
-  - Crawling (hackrawler) (classic crawling for js files only with `depth 3`; t could give different results than subjs tool)
-  - GitHub search (github.py; it could give some unique results, too)
+  - Crawling (hackrawler) (classic crawling for js files only with `depth 1`; t could give different results than subjs tool)
+  - GitHub search (github.py; it could give some unique results, too but it's time-consuming considering GH api rate-limit)
 - Extraction of js files from js files.
 - Printing endpoints.
 -  Separating 200 OK js files from non-existent and processing Wayback Machine output. If js file parsed from wayback didn't return 200 OK, we are generating a URL (https://web.archive.org/web/20060102150405if_/$url) to see a file's content on wayback's server; it's ~useless for endpoints discovery but there is a point to search for credentials in the old content - that's what we'll do.

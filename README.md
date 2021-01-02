@@ -5,10 +5,10 @@ Javascript security analysis (JSA) is a program for javascript analysis during w
 # Capabilities of jsa.py:
 
 - Looking for js files inside the first, second and third level js files. For example, http(s)://host.com/file.js contains a string "https://host.com/file.js" which could be different from already known 1st level js files and contain additional endpoints or secrets.
-- Displaying endpoints for the second and third level js files.
-- It modifies found endpoins in the javascript file from /endpoint to http(s)://host_from_js_file.com/endpoint. This is a very usefull approach when you have a huge list of javascript files and would like to collect a list of all URLS.
-- Excludes and prints 3rd party js files like https://googleapis.com or //facebook.net (most likely 2nd level js file) to reduce script runtime and remove unnecessary endpoints. Also, it is usefull to identify 3rd party js files since we can expand our attack surface and exploit vulnerabilities on a 3rd party website to try to make change to the javascript file.
-- Checks the http code of the js file using HEAD method (it's faster than just GET). If 200 - it goes for further processing (because all js files should have a 200 code, otherwise there will be no loading on the page), if 404 - then such a code indicates a non-existing file (or an unregistered host with a file) that can be uploaded by an attacker for the displaying on the target page.
+- Displaying endpoints for the first, second and third level js files.
+- Modifying found endpoins in the javascript file from /endpoint to http(s)://host_from_js_file.com/endpoint. This is a very usefull approach when you have a huge list of javascript files and would like to collect a list of all URLS.
+- Excludeing and printing 3rd party js files like https://googleapis.com or //facebook.net (most likely 2nd level js file) to reduce script runtime and remove unnecessary endpoints. Also, it is usefull to identify 3rd party js files since we can expand our attack surface and exploit vulnerabilities on a 3rd party website to try to make change to the javascript file.
+- Checking the http code of the second and third level js files using HEAD method. If 200 - it goes for further processing (because all js files should have a 200 code, otherwise there will be no loading on the page), if 404 - then such a code indicates a non-existing file (or an unregistered host with a file) that can be uploaded by an attacker for the insertion on the target page.
 - Remove duplicates - js files and endpoints. By default, most of the tools for js grabbing (like subjs, gau, etc) can provide a list of js files containing duplicates. Even if they performed deduplication procedure, a list can still contain duplicates since, for example, http(s)://host.com/file.js and http(s)://host.com/file.js?identifier=random_str are the same js files. Deleting duplicates can greatly boost the program's performance.
 - Remove unnecessary files with such extensions .css|.png|.jpg|.svg|.jpeg|.ico|.gif|.woff|.woff2|.swf.
 
@@ -72,6 +72,7 @@ echo "http(s)://host.com" | ./automation.sh
 - ⬜️ check whether endpoints should be applied to the host from the page itself or from js file (CDNs, etc);
 - ⬜️ retire js check via downloading js files to the temporary directory using wget (python module);
 - ⬜️ identificate and process .map files (maybe);
+- ⬜️ recognition of dynamic js;
 - ⬜️ rewrite a tool in Golang (I need to learn Golang first);
 - ⬜️ multithreading, - only in Golang (multithreading in Python is terrible from my experience).
 
@@ -84,8 +85,11 @@ Project discovery @projectdiscovery for github.com/projectdiscovery/nuclei and g
 Somdev Sangwan @s0md3v for https://github.com/s0md3v/Arjun (I needed to fork it for automation ease).
 
  ̶I̶n̶t̶e̶n̶d̶e̶d̶ ̶f̶e̶a̶t̶u̶r̶e̶s̶ knwon bugs:
- - absolute path could be incorrect;
- - Arjun doesn't have good calibration and can return as much parameters as you have in the wordlist.
+ - Absolute paths could be incorrect in some cases;
+ - Arjun doesn't have good calibration and can return as much parameters as you have in the wordlist;
+ - Sometimes the tool thinks that the 2nd/3rd js file is an endpoint and vise versa - I'll try to improve the detection;
+ - If a host reponds for too long, there could be an error - I'll try to suppress this exception in the script;
+ - 3rd party js files identify regarding js file's URL, not the parent host.
 
 # Ways to contribute
 

@@ -88,9 +88,13 @@ You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forg
 Special thanks to these beautiful people from who I  ̶s̶h̶a̶m̶e̶f̶u̶l̶l̶y̶ ̶s̶t̶e̶a̶l̶e̶d̶ borrowed some tools for automation.sh :D :
 
 Corben Leo @lc for github.com/lc/subjs and github.com/lc/gau;
+
 Luke Stephens @hakluke for github.com/hakluke/hakrawler;
+
 Gwendal Le Coguic @gwen001 for https://github.com/gwen001/github-search/raw/master/github-endpoints.py;
+
 Project discovery @projectdiscovery for github.com/projectdiscovery/nuclei and github.com/projectdiscovery/httpx;
+
 Somdev Sangwan @s0md3v for https://github.com/s0md3v/Arjun (I needed to fork it for automation ease).
 
  ̶I̶n̶t̶e̶n̶d̶e̶d̶ ̶f̶e̶a̶t̶u̶r̶e̶s̶ known bugs:

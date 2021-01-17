@@ -87,7 +87,10 @@ def main_func(original_lines, js_files, all_endpoints):
 
             print("Possible (if not CDN) 3rd party JS file has been found: " + line)
         warnings.simplefilter('ignore', InsecureRequestWarning)
-        js_file_status = requests.get(line, verify=False).status_code  ## finding out a status code of js file url
+        try:
+            js_file_status = requests.get(line, verify=False).status_code  ## finding out a status code of js file url
+        except Exception:
+             pass
         if js_file_status == 200:  ## if js file exists (to reduce time)
             warnings.simplefilter('ignore', InsecureRequestWarning)
             js_file_content = requests.get(line, verify=False)  ## fetching js file's content

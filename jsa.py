@@ -88,20 +88,19 @@ def main_func(original_lines, js_files, all_endpoints):
             print("Possible (if not CDN) 3rd party JS file has been found: " + line)
         warnings.simplefilter('ignore', InsecureRequestWarning)
         try:
-            js_file_status = requests.get(line, verify=False).status_code  ## finding out a status code of js file url
+            js_file = requests.get(line, verify=False)  ## finding out a status code of js file url
         except Exception:
-             pass
-        if js_file_status == 200:  ## if js file exists (to reduce time)
+             continue
+        if js_file.status_code == 200:  ## if js file exists (to reduce time)
             warnings.simplefilter('ignore', InsecureRequestWarning)
-            js_file_content = requests.get(line, verify=False)  ## fetching js file's content
-
+            
             # filename = "%s/%s" % (directory_with_js_files, name_for_wget)
             # os.makedirs(os.path.dirname(filename))  ##creating dir with a js file
             # js_file_write = open(filename, "w")  ## it's for js file downloading
 
             # js_file_write.write(js_file_content.text)  ## wget for js file into the directory
 
-            u = re.findall("\"\/[a-zA-Z0-9_?&=/\-\#\.]*\"", js_file_content.text)  ## matching "string"
+            u = re.findall("\"\/[a-zA-Z0-9_?&=/\-\#\.]*\"", js_file.text)  ## matching "string"
             u = str(u).replace("', '", "\n").replace("[]", "")
             u = re.sub("\['|'\]|\"", "", u)
             u = re.sub(
@@ -137,7 +136,7 @@ def main_func(original_lines, js_files, all_endpoints):
                         js_files.append(one)
                 else:
                     all_endpoints.append(one)  ## printing 1st lvl endpoints
-        elif js_file_status == 404 and verbose is True:  ## todo make it for subjs output only
+        elif js_file.status_code == 404 and verbose is True:  ## todo make it for subjs output only
             print(
                 "JS file {} returned 404 code. Check the host and try to apply file upload with path traversal/PUT method file upload.".format(
                     line))

@@ -1,3 +1,4 @@
 requests
 argparse
 datetime
+tldextract

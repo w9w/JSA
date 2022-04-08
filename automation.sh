@@ -17,8 +17,8 @@ printf $stdin | subjs | tee tmp/subjs${random_str}.txt >/dev/null
 
 ## lauching wayback with a "js only" mode to reduce execution time
 printf 'Launching Gau with wayback..\n'
-printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:application/javascript&somevar=" | gau -providers wayback -random-agent | tee tmp/gau${random_str}.txt >/dev/null   ##gau
-printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" | gau -providers wayback -random-agent | tee -a tmp/gau${random_str}.txt >/dev/null   ##gau
+printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:application/javascript&somevar=" | gau --providers wayback | tee tmp/gau${random_str}.txt >/dev/null   ##gau
+printf $stdin | xargs -I{} echo "{}/*&filter=mimetype:text/javascript&somevar=" | gau --providers wayback | tee -a tmp/gau${random_str}.txt >/dev/null   ##gau
 
 
 ## if js file parsed from wayback didn't return 200 live, we are generating a URL to see a file's content on wayback's server;
@@ -31,7 +31,7 @@ cat tmp/gau${random_str}.txt | cut -d '?' -f1 | cut -d '#' -f1 | sort -u | xargs
 
 ## Classic crawling. It could give different results than subjs tool
 printf 'Now crawling web pages..\n'
-printf $stdin | hakrawler -js -plain -subs -insecure -depth 2 | tee tmp/spider${random_str}.txt >/dev/null   ##just crawling web pages
+printf $stdin | hakrawler -u -subs -insecure -d 2 | grep '\.js' | tee tmp/spider${random_str}.txt >/dev/null   ##just crawling web pages
 
 
 ## Searching for URLs in github, - that could give some unique results, too

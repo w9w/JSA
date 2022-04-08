@@ -32,7 +32,7 @@ Javascript security analysis (JSA) is a program for javascript analysis during w
 <img width="966" alt="Screenshot 2021-01-02 at 17 27 21" src="https://user-images.githubusercontent.com/38838852/103461010-ad341d80-4d23-11eb-82ca-398f0bd1c573.png">
 
 # Usage & installation for jsa.py:
-git clone https://github.com/w9w/JSA.git && cd JSA
+git clone https://github.com/w9w/JSA.git && cd JSA && pip3 install -r requirements.txt
 
 echo "https://host.com/file.js" | python3 jsa.py
 

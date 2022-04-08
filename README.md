@@ -46,7 +46,7 @@ chmod +x installation.sh
 
 ./installation.sh
 
-copy your github API key to `.tokens`
+paste your github API key into the `.tokens` file
 
 echo "http(s)://host.com" | ./automation.sh
 

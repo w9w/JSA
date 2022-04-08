@@ -2,6 +2,4 @@ requests
 argparse
 datetime
 tldextract
-fg
-bg
-attr
+colored

@@ -44,8 +44,6 @@ echo "https://subdomain.host.com" | subjs | python3 jsa.py
 
 chmod +x installation.sh
 
-./installation.sh
-
 paste your github API key into the `.tokens` file
 
 echo "http(s)://host.com" | ./automation.sh

@@ -42,7 +42,7 @@ echo "https://subdomain.host.com" | subjs | python3 jsa.py
 
 # Usage & installation for automation.sh:
 
-chmod +x installation.sh
+chmod +x automation.sh
 
 paste your github API key into the `.tokens` file
 

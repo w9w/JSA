@@ -32,9 +32,9 @@ Javascript security analysis (JSA) is a program for javascript analysis during w
 <img width="966" alt="Screenshot 2021-01-02 at 17 27 21" src="https://user-images.githubusercontent.com/38838852/103461010-ad341d80-4d23-11eb-82ca-398f0bd1c573.png">
 
 # Usage & installation for jsa.py:
-git clone https://github.com/w9w/JSA.git && cd JSA && pip3 install -r requirements.txt
+`git clone https://github.com/w9w/JSA.git && cd JSA && pip3 install -r requirements.txt`
 
-echo "https://host.com/file.js" | python3 jsa.py
+`echo "https://host.com/file.js" | python3 jsa.py`
 
 Example for pulling out js files and processing:
 
@@ -42,15 +42,15 @@ echo "https://subdomain.host.com" | subjs | python3 jsa.py
 
 # Usage & installation for automation.sh:
 
-chmod +x installation.sh
-
 paste your github API key into the `.tokens` file
 
-echo "http(s)://host.com" | ./automation.sh
+`chmod +x installation.sh && ./installation.sh`
+
+`echo "http(s)://host.com" | ./automation.sh`
 
 # Usage for massive and parallel scanning (~lightning-fast execution):
 
-cat ~/lists/domains/host.com/http_s_hosts.txt | subjs | parallel -j 20 'echo "{}" | python3 jsa.py'.
+`cat ~/lists/domains/host.com/http_s_hosts.txt | subjs | parallel -j 20 'echo "{}" | python3 jsa.py'`
 
 You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forget to delete that annoying message.
   
@@ -75,7 +75,7 @@ You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forg
 - ⬜️ rewrite a tool in Golang (I need to learn Golang first);
 - ⬜️ multithreading, - only in Golang (multithreading in Python is terrible from my experience).
 
-Special thanks to these beautiful people from who I s̶t̶e̶a̶l̶e̶d̶ borrowed some tools for automation.sh :D :
+Special thanks to these awesome people from who I s̶t̶e̶a̶l̶e̶d̶ borrowed some tools for automation.sh :D :
 
 Corben Leo @lc for github.com/lc/subjs and github.com/lc/gau;
 

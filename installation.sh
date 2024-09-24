@@ -1,21 +1,21 @@
 #bin/bash
 
 printf "Subjs installation.. (Thanks to Corben Leo :) )\n\n"
-GO111MODULE=on go get -u -v github.com/lc/subjs
+go install github.com/lc/subjs@latest
 
 printf "Gau installation.. (Thanks to Corben Leo :) )\n\n"
-GO111MODULE=on go get -u -v github.com/lc/gau
+go install github.com/lc/gau@latest
 
 printf "Hackrawler installation.. (Thanks to Luke Stephens :) )\n\n"
-GO111MODULE=on go get -u -v github.com/hakluke/hakrawler
+go install github.com/hakluke/hakrawler@latest
 
 printf "github-endpoints.py wgetting.. (Thanks to Gwendal Le Coguic :) )\n\n"
 wget https://github.com/gwen001/github-search/raw/master/github-endpoints.py
 
 printf "Nuclei & httpx installation.. (Thanks to @projectdiscovery :) )\n\n"
-GO111MODULE=on go get -u -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei
+go install -v github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
 
-GO111MODULE=on go get -u -v github.com/projectdiscovery/httpx/cmd/httpx
+go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
 printf "Arjun installation.. (Thanks to Somdev Sangwan :) )\n\n"
 git clone https://github.com/w9w/Arjun.git

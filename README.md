@@ -46,7 +46,7 @@ paste your github API key into the `.tokens` file
 
 `chmod +x installation.sh && ./installation.sh`
 
-`echo "http(s)://host.com" | ./automation.sh`
+`echo "https://example.com" | ./automation.sh`
 
 # Usage for massive and parallel scanning (~lightning-fast execution):
 

@@ -78,7 +78,7 @@ def main_func(original_lines, js_files, all_endpoints):
 
         clear_url0 = re.findall("^(.*?)\\b/", line)
         global clear_url
-        clear_url = re.sub("\['|'\]", "", str(clear_url0))  ## matching URL without js part
+        clear_url = re.sub(r"\['|'\]", "", str(clear_url0))  ## matching URL without js part
         domain_name = tld_detection(clear_url)
         if "[]" in clear_url:
             continue
@@ -100,13 +100,13 @@ def main_func(original_lines, js_files, all_endpoints):
 
             # js_file_write.write(js_file_content.text)  ## wget for js file into the directory
 
-            u = re.findall("\"\/[a-zA-Z0-9_?&=/\-\#\.]*\"", js_file.text)  ## matching "string"
+            u = re.findall(r"\"\/[a-zA-Z0-9_?&=/\-\#\.]*\"", js_file.text)  ## matching "string"
             u = str(u).replace("', '", "\n").replace("[]", "")
-            u = re.sub("\['|'\]|\"", "", u)
+            u = re.sub(r"\['|'\]|\"", "", u)
             u = re.sub(
                 ".css|.png|.jpg|.svg|.jpeg|.ico|.gif|.woff|.woff2|.swf", "", u,
                 flags=re.M)  ## excluding not desirable file extensions
-            u = re.sub(".*?\.(facebook|twitter).(net|com)(/)|(/|/\?|/#|#)$", "", u,
+            u = re.sub(r".*?\.(facebook|twitter).(net|com)(/)|(/|/\?|/#|#)$", "", u,
                        flags=re.M)  ##preparing for deduplication with / /? # deleting
             u = re.sub("(\n\n)", "\n", u, flags=re.M)
 
@@ -117,7 +117,7 @@ def main_func(original_lines, js_files, all_endpoints):
             u_lines = io.StringIO(u).readlines()  ## endpoints
 
             for one in u_lines:
-                if re.findall("\.js$", one):
+                if re.findall(r"\.js$", one):
                     if re.findall("^//", one) and verbose is True:  ## excluding 3rd party 2nd lvl js files & print 'em
                         if not re.findall("^//%s" % domain_name, one):
                             print("Possible (if not CDN) 3rd party JS file has been found: " + one)
@@ -129,8 +129,8 @@ def main_func(original_lines, js_files, all_endpoints):
                     if re.findall("^\b", one):  ## if js file doesn't have / at ^, it'll be added
                         one = re.sub("^", clear_url + "/", one)  # one = re.sub("\n", "", one)
                         js_files.append(one)
-                    if re.findall("^\[\]/", one):
-                        one = re.sub("^\[\]", clear_url, one)
+                    if re.findall(r"^\[\]/", one):
+                        one = re.sub(r"^\[\]", clear_url, one)
                         js_files.append(one)
                     else:  ## printing js files found on 2nd level
                         js_files.append(one)
@@ -154,7 +154,7 @@ if len(all_endpoints_1st_lvl) != 0:
         clear_domain = ''.join(clear_domain)
 
         t = re.findall("^(.*?)(?<=com)", l)
-        l = re.sub("(/|/\?|/#|#|/\.)$", "", l)  ## additionally deleting / /? /#
+        l = re.sub(r"(/|/\?|/#|#|/\.)$", "", l)  ## additionally deleting / /? /#
 
         if not re.findall("%s$" % clear_domain,
                           l):  ## removing clear urls without actual endpoints like http(s)://domain.com
@@ -162,7 +162,7 @@ if len(all_endpoints_1st_lvl) != 0:
                 l = l.replace("[]//", "//%s" % clear_domain)
                 temp0.append(l)
 
-            if not re.findall("%s/\W" % clear_domain, l):  ## deleting endpoints containing
+            if not re.findall(r"%s/\W" % clear_domain, l):  ## deleting endpoints containing
                 ## non-word character (not a-z0-9) http(s)://domain.com/(.|[]{},
                 if not re.findall("%s/[a-z0-9]{1}$" % clear_domain,
                                   l):  ## deleting endpoints containing 1 word character like http(s)://domain.com/1|a|1a;
@@ -184,7 +184,7 @@ if len(js_files_2nd_lvl) != 0:  ## processing 2nd level js files
     deduplication(js_files_2nd_lvl, js_files_2nd_lvl_original)  ## removing dupes
     for l in js_files_2nd_lvl_original:  ## printing a list
 
-        j2 = re.findall("\.js$", l)  ## sometimes (I don't know why though), non-js files leak to the list
+        j2 = re.findall(r"\.js$", l)  ## sometimes (I don't know why though), non-js files leak to the list
         if len(j2) == 0:
             continue
         if l not in original_lines:
@@ -202,7 +202,7 @@ if len(js_files_3rd_lvl) != 0:
     deduplication(js_files_3rd_lvl, js_files_3rd_lvl_original)  ## removing dupes
     for l in js_files_3rd_lvl_original:  ## printing a list
 
-        j3 = re.findall("\.js$", l)  ## sometimes (I don't know why though), non-js files leak to the list
+        j3 = re.findall(r"\.js$", l)  ## sometimes (I don't know why though), non-js files leak to the list
         if len(j3) == 0:
             continue
         if l not in js_files_2nd_lvl_original and original_lines:
@@ -210,8 +210,8 @@ if len(js_files_3rd_lvl) != 0:
                 print("\nJS files 3rd level:\n")
                 printed = True
             if verbose is True:
-                if re.findall("^htt(p|s)(.*?)\w//(.*?)/", l):
-                    l = re.sub("^htt(p|s)(.*?)\w//(.*?)/", clear_url + "/", l, flags=re.M)
+                if re.findall(r"^htt(p|s)(.*?)\w//(.*?)/", l):
+                    l = re.sub(r"^htt(p|s)(.*?)\w//(.*?)/", clear_url + "/", l, flags=re.M)
                 print(l)
 
     main_func(js_files_3rd_lvl, js_files_4th_lvl, all_endpoints_3rd_lvl)
@@ -227,7 +227,7 @@ if all_endpoints_2nd_lvl:  ## printing 2nd level endpoints
         clear_domain = ''.join(clear_domain)
 
         t = re.findall("^(.*?)(?<=com)", l)
-        l = re.sub("(/|/\?|/#|#|/\.)$", "", l)  ## additionally deleting / /? /#
+        l = re.sub(r"(/|/\?|/#|#|/\.)$", "", l)  ## additionally deleting / /? /#
 
         if not re.findall("%s$" % clear_domain,
                           l):  ## removing clear urls without actual endpoints like http(s)://domain.com
@@ -235,7 +235,7 @@ if all_endpoints_2nd_lvl:  ## printing 2nd level endpoints
                 l = l.replace("[]//", "//%s" % clear_domain)
                 temp1.append(l)
 
-            if not re.findall("%s/\W" % clear_domain, l):  ## deleting endpoints containing
+            if not re.findall(r"%s/\W" % clear_domain, l):  ## deleting endpoints containing
                 ## non-word character (not a-z0-9) http(s)://domain.com/(.|[]{},
                 if not re.findall("%s/[a-z0-9]{1}$" % clear_domain,
                                   l):  ## deleting endpoints containing 1 word character like http(s)://domain.com/1|a|1a;
@@ -264,7 +264,7 @@ if all_endpoints_3rd_lvl:
         clear_domain = ''.join(clear_domain)
 
         t = re.findall("^(.*?)(?<=com)", l)
-        l = re.sub("(/|/\?|/#|#|/\.)$", "", l)  ## additionally deleting / /? /#
+        l = re.sub(r"(/|/\?|/#|#|/\.)$", "", l)  ## additionally deleting / /? /#
 
         if not re.findall("%s$" % clear_domain,
                           l):  ## removing clear urls without actual endpoints like http(s)://domain.com
@@ -272,7 +272,7 @@ if all_endpoints_3rd_lvl:
                 l = l.replace("[]//", "//%s" % clear_domain)
                 temp2.append(l)
 
-            if not re.findall("%s/\W" % clear_domain, l):  ## deleting endpoints containing
+            if not re.findall(r"%s/\W" % clear_domain, l):  ## deleting endpoints containing
                 ## non-word character (not a-z0-9) http(s)://domain.com/(.|[]{},
                 if not re.findall("%s/[a-z0-9]{1}$" % clear_domain,
                                   l):  ## deleting endpoints containing 1 word character like http(s)://domain.com/1|a|1a;

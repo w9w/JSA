@@ -1582,18 +1582,17 @@ tlds_2nd_lvl = ["ab.ca","ac.ac","ac.ae","ac.at","ac.be","ac.cn","ac.il","ac.in",
 
 
 def tld_detection(line):
-    probe_global = []
-    global tld_value
+    # Remove trailing slash if present
+    line = line.rstrip('/')
     for tld in tlds_2nd_lvl:
-        line = re.sub("/$", "", line)
-        probe = re.findall("\.%s$" %tld, line)
-        if str(probe) != "[]":
-            probe_global.append(tld)
-            if str(probe_global) != "[]":
-                return tld
+        # Use raw string for regex pattern to handle escape sequences properly
+        pattern = r'\.{}$'.format(re.escape(tld))
+        if re.search(pattern, line):
+            return tld
 
-    if str(probe_global) == "[]":
-        for tld in tlds_1st_lvl:
-            probe = re.findall("\.%s$" % tld, line)
-            if str(probe) != "[]":
-                return tld
+    # Then check first-level TLDs
+    for tld in tlds_1st_lvl:
+        pattern = r'\.{}$'.format(re.escape(tld))
+        if re.search(pattern, line):
+            return tld
+    return None

@@ -64,6 +64,8 @@ You can get parallel GNU here https://www.gnu.org/software/parallel/. Don't forg
 - ✅ define domain and tld using re depending on line, if it's possible (yes but I need to update tlds constantly);
 - ✅ credentials leak check using  ̶s̶e̶c̶r̶e̶t̶f̶i̶n̶d̶e̶r̶.̶p̶y̶ nuclei with extended regular expressions;
 - ✅ brute-forcing parameters for endpoints using arjun.py;
+- ⬜️ verbose mode for easier tool piping in automation
+- ⬜️ endpoints extraction from 404 waybackmachine's js files with correct hostname (not wayback but currently processed js file)
 - ⬜️ pull out every <script> part in the html page, analyzing it as a usual js file (saving and adding to the tool as file://);
 - ⬜️ js files discovery via brute-force method (javascript content-type recognition) using enhanced version of https://s3.amazonaws.com/assetnote-wordlists/data/automated/httparchive_js_2020_11_18.txt;
 - ⬜️ check available HTTP methods for endpoints (OPTIONS check);
